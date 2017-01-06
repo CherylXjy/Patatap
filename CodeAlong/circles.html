@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Circles</title>
+    <link rel="stylesheet" type="text/css" href="circles.css">
+    <script type="text/javascript" src="paper-full.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/1.1.28/howler.js"></script>
+    <script type="text/paperscript" canvas="myCanvas">
+
+    var keyData = {
+        a:{
+            color: "purple",
+            sound: new Howl({urls: ['sounds/bubbles.mp3']})
+        },
+        b:{
+            color: "green",
+            sound: new Howl({urls: ['sounds/clay.mp3']})
+        },
+        c:{
+            color: "yellow",
+            sound: new Howl({urls: ['sounds/confetti.mp3']})
+        }
+    };
+
+
+        /*
+        var path = new Path();
+        path.strokeColor = 'black';
+        var start = new Point(0,100);
+        path.moveTo(start);
+        path.lineTo(start+[100,-50]);
+
+        var myCircle = new Path.Circle(new Point(100,70), 50);
+        myCircle.fillColor = 'black';*/
+       
+        var circles = [];
+
+        function onKeyDown(event) {
+            var key = event.key;
+            keyData[key].sound.play();
+            var height = view.size.height;
+            var width = view.size.width;
+            var x = Math.random()*width;
+            var y = Math.random()*height;
+
+            var maxPoint = new Point(width, height);
+            var randomPoint = Point.random()*maxPoint;
+            //new Path.Circle(new Point(x,y), 10).fillColor="red";
+            var newCircle = new Path.Circle(randomPoint, 500);
+            newCircle.fillColor=keyData[key].color;
+            circles.push(newCircle);
+        }
+
+        function onFrame(event){
+            for(var i = 0; i < circles.length; i++){
+                circles[i].fillColor.hue +=1;
+                circles[i].scale(.9);
+            }
+        }
+
+
+ 
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" resize></canvas>
+</body>
+</html>
